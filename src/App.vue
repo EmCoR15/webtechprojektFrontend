@@ -1,9 +1,12 @@
 <script setup lang="ts">
 import MyTasks from './components/MyList.vue'
+import logo from '@/assets/todolisteLogo.png'
 </script>
 
 <template>
   <main>
+    <!-- Logo -->
+    <img :src="logo" alt="Mein Logo" class="logo" />
     <h1>Meine Aufgabenübersicht</h1>
     <MyTasks />
   </main>
@@ -18,7 +21,15 @@ main {
   min-height: 100vh;
 }
 h1 {
-  color: #e5e7eb;
+  color: var(--color-heading);
   margin-bottom: 24px;
 }
+
+/* Neues Logo-Styling */
+.logo {
+  width: 120px; /* Logo-Größe anpassen */
+  height: auto;
+  margin-bottom: 16px; /* Abstand unter dem Logo */
+}
+
 </style>

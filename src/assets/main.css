@@ -1,10 +1,16 @@
 @import './base.css';
 
+html, body, #app { height: 100%; }
+body { margin: 0; }
+
 #app {
   max-width: 1280px;
   margin: 0 auto;
   padding: 2rem;
   font-weight: normal;
+  display: grid;
+  place-items: center;
+  text-align: center;
 }
 
 a,
@@ -28,8 +34,7 @@ a,
   }
 
   #app {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+
     padding: 0 2rem;
   }
 }
