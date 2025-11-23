@@ -1,25 +1,62 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 
-// Reaktive Liste von Aufgaben (string[])
-const tasks = ref<string[]>([
-  'Projektidee besprechen',
-  'Vue-Komponente fertigstellen',
-  'Code auf GitHub pushen'
-])
+// Typ passend zu deinem Java-Backend
+type ToDoEntry = {
+  id: number;
+  name: string;
+  description: string;
+  dueTime: string; // kommt als ISO-String vom Backend
+  done: boolean;
+}
+
+// Reaktive Liste
+const tasks = ref<ToDoEntry[]>([])
+const error = ref<string | null>(null)
+
+// Load-Funktion
+const loadTodos = async () => {
+  try {
+    const base = import.meta.env.VITE_BACKEND_URL
+    const res = await fetch(`${base}/todos`)
+
+    if (!res.ok) {
+      throw new Error(`Backend error: ${res.status}`)
+    }
+
+    tasks.value = await res.json()
+
+  } catch (e) {
+    error.value = (e as Error).message ?? "Unbekannter Fehler"
+    console.error("FEHLER beim Laden:", e)
+  }
+
+}
+
+// Wird automatisch ausgeführt, wenn die Komponente geladen wird
+onMounted(() => {
+  loadTodos()
+})
 </script>
 
 <template>
   <section class="card">
     <h2>Tasks für heute</h2>
-    <ul>
+
+    <!-- Fehler anzeigen -->
+    <p v-if="error" style="color:red">{{ error }}</p>
+
+    <ul v-else>
       <li
         v-for="(task, i) in tasks"
-        :key="i"
+        :key="task.id"
         class="task"
       >
         <span class="index">{{ i + 1 }}.</span>
-        <span>{{ task }}</span>
+        <span>
+          <b>{{ task.name }}</b><br>
+          <small>{{ task.description }}</small>
+        </span>
       </li>
     </ul>
   </section>
