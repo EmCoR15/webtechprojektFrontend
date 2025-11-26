@@ -9,6 +9,11 @@ type ToDoEntry = {
   done: boolean;
 }
 
+// 👉 Token als Prop entgegennehmen (kann null sein)
+const props = defineProps<{
+  token?: string | null
+}>()
+
 // Reaktive Liste
 const tasks = ref<ToDoEntry[]>([])
 const error = ref<string | null>(null)
@@ -17,7 +22,14 @@ const error = ref<string | null>(null)
 const loadTodos = async () => {
   try {
     const base = import.meta.env.VITE_BACKEND_URL
-    const res = await fetch(`${base}/todos`)
+
+    // 👉 Header vorbereiten
+    const headers: HeadersInit = {}
+    if (props.token) {
+      headers['Authorization'] = `Bearer ${props.token}`
+    }
+
+    const res = await fetch(`${base}/todos`, { headers })
 
     if (!res.ok) {
       throw new Error(`Backend error: ${res.status}`)
@@ -48,7 +60,7 @@ onMounted(() => {
       <table class="table table-striped table-hover align-middle mb-0">
         <thead class="table-light">
         <tr>
-          <th scope="col" style="wqidth: 3rem;">#</th>
+          <th scope="col" style="width: 3rem;">#</th>
           <th scope="col">Name</th>
           <th scope="col">Beschreibung</th>
           <th scope="col" style="width: 8rem;">Fällig</th>
