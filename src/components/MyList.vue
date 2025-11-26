@@ -1,12 +1,11 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 
-// Typ passend zu deinem Java-Backend
 type ToDoEntry = {
   id: number;
   name: string;
   description: string;
-  dueTime: string; // kommt als ISO-String vom Backend
+  dueTime: string;
   done: boolean;
 }
 
@@ -25,12 +24,10 @@ const loadTodos = async () => {
     }
 
     tasks.value = await res.json()
-
   } catch (e) {
-    error.value = (e as Error).message ?? "Unbekannter Fehler"
-    console.error("FEHLER beim Laden:", e)
+    error.value = (e as Error).message ?? 'Unbekannter Fehler'
+    console.error('FEHLER beim Laden:', e)
   }
-
 }
 
 // Wird automatisch ausgeführt, wenn die Komponente geladen wird
@@ -44,21 +41,50 @@ onMounted(() => {
     <h2>Tasks für heute</h2>
 
     <!-- Fehler anzeigen -->
-    <p v-if="error" style="color:red">{{ error }}</p>
+    <p v-if="error" class="text-danger mb-0">{{ error }}</p>
 
-    <ul v-else>
-      <li
-        v-for="(task, i) in tasks"
-        :key="task.id"
-        class="task"
-      >
-        <span class="index">{{ i + 1 }}.</span>
-        <span>
-          <b>{{ task.name }}</b><br>
-          <small>{{ task.description }}</small>
-        </span>
-      </li>
-    </ul>
+    <!-- Tabelle statt UL-Liste -->
+    <div v-else class="table-responsive">
+      <table class="table table-striped table-hover align-middle mb-0">
+        <thead class="table-light">
+        <tr>
+          <th scope="col" style="wqidth: 3rem;">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Beschreibung</th>
+          <th scope="col" style="width: 8rem;">Fällig</th>
+          <th scope="col" style="width: 7rem;">Status</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr
+          v-for="(task, i) in tasks"
+          :key="task.id"
+        >
+          <th scope="row">{{ i + 1 }}</th>
+          <td>{{ task.name }}</td>
+          <td class="text-muted">
+            {{ task.description }}
+          </td>
+          <td>{{ task.dueTime || '-' }}</td>
+          <td>
+              <span
+                class="badge"
+                :class="task.done ? 'bg-success' : 'bg-secondary'"
+              >
+                {{ task.done ? 'Erledigt' : 'Offen' }}
+              </span>
+          </td>
+        </tr>
+
+        <tr v-if="tasks.length === 0">
+          <td colspan="5" class="text-center text-muted">
+            Keine Tasks vorhanden.
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 </template>
 
@@ -68,44 +94,14 @@ onMounted(() => {
   border: 1px solid #e5e7eb;
   border-radius: 16px;
   padding: 16px;
-  max-width: 500px;
+  max-width: 800px;
   box-shadow: 0 6px 18px rgba(0,0,0,0.05);
   margin: 1rem auto;
 }
 
 h2 {
-  margin: 0 0 12px;
+  margin: 0 0 16px;
   font-size: 1.25rem;
   color: #333;
-}
-
-ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: grid;
-  gap: 10px;
-}
-
-.task {
-  color: #181818;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #f9fafb;
-  padding: 10px 14px;
-  border-radius: 12px;
-  transition: background .2s ease;
-}
-
-.task:hover {
-  background: #edf6ee;
-}
-
-.index {
-  color: #10b981;
-  font-weight: 600;
-  width: 24px;
-  text-align: right;
 }
 </style>

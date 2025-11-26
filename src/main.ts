@@ -1,10 +1,17 @@
 import './assets/main.css'
-
+// Vue 3 application setup
 import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 
+//bootstrap
+import 'bootstrap/dist/css/bootstrap.min.css'
+import 'bootstrap'
+
+
+
 const app = createApp(App)
+
 
 app.use(router)
 
