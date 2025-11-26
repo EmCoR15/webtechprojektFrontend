@@ -39,7 +39,7 @@ const logout = () => {
 </script>
 
 <template>
-  <main>
+  <main :class="{ 'matrix-bg': !isLoggedIn }">
     <!-- Logo -->
     <img :src="logo" alt="Mein Logo" class="logo" />
     <h1>Meine Aufgabenübersicht</h1>
@@ -51,10 +51,10 @@ const logout = () => {
     />
 
     <!-- Wenn eingeloggt: Begrüßung + Logout + Aufgabenliste -->
-    <div
-      v-else
-      class="container mt-3"
-    >
+      <div
+        v-else
+        class="container mt-3"
+      >
       <div class="d-flex justify-content-between align-items-center mb-3">
         <p class="mb-0">
           Eingeloggt als
@@ -81,6 +81,8 @@ main {
   font-family: system-ui, sans-serif;
   background: radial-gradient(circle at 50% -20%, rgba(34,197,94,.08), transparent 50%);
   min-height: 100vh;
+  position: relative;
+  overflow: hidden;
 }
 h1 {
   color: var(--color-heading);
@@ -92,5 +94,45 @@ h1 {
   width: 120px;
   height: auto;
   margin-bottom: 16px;
+}
+
+.matrix-bg {
+  background: radial-gradient(circle at 50% 20%, rgba(51, 255, 153, 0.12), rgba(0, 0, 0, 0.92));
+  color: #e9ffe3;
+}
+
+.matrix-bg::before,
+.matrix-bg::after {
+  content: '';
+  position: absolute;
+  inset: -20% 0;
+  background-image: repeating-linear-gradient(
+      to bottom,
+      rgba(0, 255, 140, 0.15) 0,
+      rgba(0, 255, 140, 0.15) 2px,
+      transparent 2px,
+      transparent 16px
+    ),
+    linear-gradient(120deg, rgba(0, 255, 140, 0.06), transparent 60%),
+    linear-gradient(-120deg, rgba(0, 255, 140, 0.06), transparent 60%);
+  mix-blend-mode: screen;
+  pointer-events: none;
+  opacity: 0.6;
+  animation: matrixFall 14s linear infinite;
+}
+
+.matrix-bg::after {
+  animation-duration: 18s;
+  animation-direction: reverse;
+  opacity: 0.4;
+}
+
+@keyframes matrixFall {
+  0% {
+    transform: translateY(-8%);
+  }
+  100% {
+    transform: translateY(8%);
+  }
 }
 </style>
