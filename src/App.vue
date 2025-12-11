@@ -77,7 +77,7 @@ const logout = () => {
 <style scoped>
 main {
   text-align: center;
-  padding: 40px 16px;
+  padding: 40px 480px;
   font-family: system-ui, sans-serif;
   background: radial-gradient(circle at 50% -20%, rgba(34,197,94,.08), transparent 50%);
   min-height: 100vh;
