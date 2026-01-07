@@ -82,8 +82,17 @@ main {
   background: radial-gradient(circle at 50% -20%, rgba(34,197,94,.08), transparent 50%);
   min-height: 100vh;
 }
+
+button {
+  color : #f8f8f8;}
+
+p {
+  font-size: 14px;
+  color: #f8f8f8;
+}
+
 h1 {
-  color: var(--color-heading);
+  color: var(--bs-green);
   margin-bottom: 24px;
 }
 
