@@ -102,7 +102,7 @@ onMounted(() => {
 
     <!-- Formular für neues Todo -->
     <form class="row g-2 mb-3 text-start" @submit.prevent="addTodo">
-      <div class="col-12 col-md-4">
+      <div class="col-12 col-md-3">
         <label class="form-label small mb-1">Name</label>
         <input
           v-model="newName"
@@ -113,7 +113,7 @@ onMounted(() => {
         />
       </div>
 
-      <div class="col-12 col-md-4">
+      <div class="col-12 col-md-3">
         <label class="form-label small mb-1">Beschreibung</label>
         <input
           v-model="newDescription"
@@ -128,7 +128,8 @@ onMounted(() => {
         <input v-model="newDueTime" type="datetime-local" class="form-control form-control-sm" />
       </div>
 
-      <div class="col-12 col-md-1 d-flex align-items-end">
+      <div class="col-12 col-md-3 d-flex align-items-end">
+        <!-- 3 statt 1! -->
         <button type="submit" class="btn btn-success btn-sm w-100">Speichern</button>
       </div>
     </form>
@@ -172,8 +173,8 @@ onMounted(() => {
 
 <style scoped>
 .card {
-  background: #fff;
-  border: 1px solid #e5e7eb;
+  background: var(--color-background-soft);
+  border: 1px solid var(--color-border);
   border-radius: 16px;
   padding: 16px;
   max-width: 800px;
@@ -184,6 +185,55 @@ onMounted(() => {
 h2 {
   margin: 0 0 16px;
   font-size: 1.25rem;
-  color: #333;
+  color: var(--color-heading);
+}
+
+/* Tabellen-Styles */
+.table {
+  color: var(--color-text);
+  border-color: var(--color-border);
+}
+
+.table > :not(caption) > * > * {
+  border-bottom-color: var(--color-border);
+  color: var(--color-text);
+}
+
+.table-light {
+  --bs-table-bg: var(--color-background-mute);
+  --bs-table-color: var(--color-text);
+  background-color: var(--color-background-mute);
+  border-color: var(--color-border);
+}
+
+.table-light th {
+  color: var(--color-text) !important;
+  border-color: var(--color-border) !important;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+  --bs-table-bg-type: var(--color-background-mute);
+  background-color: var(--color-background-mute);
+  color: var(--color-text);
+}
+
+.table-striped > tbody > tr:nth-of-type(even) > * {
+  background-color: transparent;
+  color: var(--color-text);
+}
+
+td,
+th {
+  color: var(--color-text) !important;
+  border-color: var(--color-border) !important;
+}
+
+.text-muted {
+  color: var(--color-text-muted) !important;
+  opacity: 0.7;
+}
+
+.badge {
+  /* Badges behalten ihre Bootstrap-Farben */
 }
 </style>
