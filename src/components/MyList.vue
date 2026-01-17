@@ -87,6 +87,36 @@ const addTodo = async () => {
     console.error('FEHLER beim Speichern:', e)
   }
 }
+//Löschen-Funktion
+const deleteTodo = async (id: number) => {
+  if (!confirm('Task wirklich löschen?')) {
+    return
+  }
+
+  try {
+    const base = import.meta.env.VITE_BACKEND_URL
+
+    const headers: Record<string, string> = {}
+    if (props.token) {
+      headers['Authorization'] = `Bearer ${props.token}`
+    }
+
+    const res = await fetch(`${base}/todos/${id}`, {
+      method: 'DELETE',
+      headers,
+    })
+
+    if (!res.ok) {
+      throw new Error(`Fehler beim Löschen: ${res.status}`)
+    }
+
+    // Aus der Liste entfernen
+    tasks.value = tasks.value.filter((t) => t.id !== id)
+  } catch (e) {
+    error.value = (e as Error).message ?? 'Unbekannter Fehler beim Löschen'
+    console.error('FEHLER beim Löschen:', e)
+  }
+}
 
 onMounted(() => {
   loadTodos()
@@ -97,10 +127,8 @@ onMounted(() => {
   <section class="card">
     <h2>Tasks für heute</h2>
 
-    <!-- Fehler anzeigen -->
     <p v-if="error" class="text-danger mb-0">{{ error }}</p>
 
-    <!-- Formular für neues Todo -->
     <form class="row g-2 mb-3 text-start" @submit.prevent="addTodo">
       <div class="col-12 col-md-3">
         <label class="form-label small mb-1">Name</label>
@@ -129,12 +157,10 @@ onMounted(() => {
       </div>
 
       <div class="col-12 col-md-3 d-flex align-items-end">
-        <!-- 3 statt 1! -->
         <button type="submit" class="btn btn-success btn-sm w-100">Speichern</button>
       </div>
     </form>
 
-    <!-- Tabelle -->
     <div class="table-responsive">
       <table class="table table-striped table-hover align-middle mb-0">
         <thead class="table-light">
@@ -144,6 +170,8 @@ onMounted(() => {
             <th scope="col">Beschreibung</th>
             <th scope="col" style="width: 8rem">Fällig</th>
             <th scope="col" style="width: 7rem">Status</th>
+            <th scope="col" style="width: 5rem">Aktion</th>
+            <!-- NEU -->
           </tr>
         </thead>
 
@@ -151,19 +179,24 @@ onMounted(() => {
           <tr v-for="(task, i) in tasks" :key="task.id">
             <th scope="row">{{ i + 1 }}</th>
             <td>{{ task.name }}</td>
-            <td class="text-muted">
-              {{ task.description }}
-            </td>
+            <td class="text-muted">{{ task.description }}</td>
             <td>{{ task.dueTime || '-' }}</td>
             <td>
               <span class="badge" :class="task.done ? 'bg-success' : 'bg-secondary'">
                 {{ task.done ? 'Erledigt' : 'Offen' }}
               </span>
             </td>
+            <td>
+              <!-- NEU -->
+              <button @click="deleteTodo(task.id)" class="btn btn-danger btn-sm" title="Löschen">
+                🗑️
+              </button>
+            </td>
           </tr>
 
           <tr v-if="tasks.length === 0">
-            <td colspan="5" class="text-center text-muted">Keine Tasks vorhanden.</td>
+            <td colspan="6" class="text-center text-muted">Keine Tasks vorhanden.</td>
+            <!-- colspan 5 -> 6 -->
           </tr>
         </tbody>
       </table>
