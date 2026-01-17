@@ -45,27 +45,16 @@ const logout = () => {
     <h1>Meine Aufgabenübersicht</h1>
 
     <!-- Wenn NICHT eingeloggt: Login-Formular -->
-    <LoginForm
-      v-if="!isLoggedIn"
-      @login-success="handleLoginSuccess"
-    />
+    <LoginForm v-if="!isLoggedIn" @login-success="handleLoginSuccess" />
 
     <!-- Wenn eingeloggt: Begrüßung + Logout + Aufgabenliste -->
-    <div
-      v-else
-      class="container mt-3"
-    >
+    <div v-else class="container mt-3">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <p class="mb-0">
           Eingeloggt als
           <strong>{{ username ?? 'User' }}</strong>
         </p>
-        <button
-          class="btn btn-outline-secondary btn-sm"
-          @click="logout"
-        >
-          Logout
-        </button>
+        <button class="btn btn-outline-secondary btn-sm" @click="logout">Logout</button>
       </div>
 
       <!-- To-Do-Liste bekommt den Token (optional im Backend auswertbar) -->
@@ -79,16 +68,25 @@ main {
   text-align: center;
   padding: 40px 480px;
   font-family: system-ui, sans-serif;
-  background: radial-gradient(circle at 50% -20%, rgba(34,197,94,.08), transparent 50%);
   min-height: 100vh;
 }
 
-button {
-  color : #f8f8f8;}
+.theme.dark {
+  background: radial-gradient(circle at 50% -20%, rgba(34, 197, 94, 0.2), transparent 50%);
+  color: white;
+}
 
-p {
-  font-size: 14px;
-  color: #f8f8f8;
+.theme.light {
+  background: radial-gradient(circle at 50% -20%, rgba(34, 197, 94, 0.08), transparent 50%);
+  color: black;
+}
+
+.theme.dark p {
+  color: white;
+}
+
+.theme.light p {
+  color: black;
 }
 
 h1 {

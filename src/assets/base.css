@@ -32,7 +32,6 @@
 
   --color-heading: var(--vt-c-text-light-1);
   --color-text: var(--vt-c-text-light-1);
-  --color-text-muted: var(--vt-c-text-light-2);
 
   --section-gap: 160px;
 }
@@ -48,7 +47,6 @@
 
     --color-heading: var(--vt-c-text-dark-1);
     --color-text: var(--vt-c-text-dark-2);
-    --color-text-muted: var(--vt-c-text-dark-2);
   }
 }
 
@@ -63,6 +61,13 @@
 html {
   color-scheme: light dark;
   background-color: var(--color-background);
+}
+
+/*fix für Farbwechsel bei dark mode*/
+#app,
+.card,
+.container {
+  background-color: var(--color-background-soft); /* oder transparent wenn kein Kasten gewünscht */
 }
 
 body {
@@ -90,57 +95,4 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-/* Bootstrap & Component Overrides */
-#app,
-.card,
-.container {
-  background-color: var(--color-background-soft);
-}
-
-.form-label,
-label {
-  color: var(--color-text) !important;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  color: var(--color-heading) !important;
-}
-
-p {
-  color: var(--color-text);
-}
-
-.form-control {
-  background-color: var(--color-background-mute) !important;
-  border-color: var(--color-border) !important;
-  color: var(--color-text) !important;
-}
-
-.form-control:focus {
-  background-color: var(--color-background-mute) !important;
-  border-color: #0d6efd !important;
-  color: var(--color-text) !important;
-  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-}
-
-.form-control::placeholder {
-  color: var(--color-text-muted) !important;
-  opacity: 0.6;
-}
-
-/* Tabellen */
-.table {
-  color: var(--color-text) !important;
-}
-
-.table-light {
-  background-color: var(--color-background-mute) !important;
-  color: var(--color-text) !important;
-}
-
-.text-muted {
-  color: var(--color-text-muted) !important;
-  opacity: 0.7;
 }
