@@ -32,6 +32,7 @@
 
   --color-heading: var(--vt-c-text-light-1);
   --color-text: var(--vt-c-text-light-1);
+  --color-text-muted: var(--vt-c-text-light-2);
 
   --section-gap: 160px;
 }
@@ -47,6 +48,7 @@
 
     --color-heading: var(--vt-c-text-dark-1);
     --color-text: var(--vt-c-text-dark-2);
+    --color-text-muted: var(--vt-c-text-dark-2);
   }
 }
 
@@ -95,4 +97,59 @@ body {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Light Mode für Bootstrap Form-Elemente */
+@media (prefers-color-scheme: light) {
+  .form-label {
+    color: var(--color-text) !important;
+  }
+
+  .form-control {
+    background-color: var(--color-background);
+    border-color: var(--color-border);
+    color: var(--color-text);
+  }
+
+  .form-control:focus {
+    background-color: var(--color-background);
+    border-color: var(--color-border-hover);
+    color: var(--color-text);
+  }
+
+  .form-control::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--color-heading);
+  }
+}
+
+/* Dark Mode für Bootstrap Form-Elemente */
+@media (prefers-color-scheme: dark) {
+  .form-label {
+    color: var(--color-text) !important;
+  }
+
+  .form-control {
+    background-color: var(--color-background-mute);
+    border-color: var(--color-border);
+    color: var(--color-text);
+  }
+
+  .form-control:focus {
+    background-color: var(--color-background-mute);
+    border-color: var(--color-border-hover);
+    color: var(--color-text);
+    box-shadow: 0 0 0 0.25rem rgba(255, 255, 255, 0.1);
+  }
+
+  .form-control::placeholder {
+    color: var(--color-text-muted);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    color: var(--color-heading);
+  }
 }

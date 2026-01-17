@@ -187,6 +187,14 @@ h2 {
   font-size: 1.25rem;
   color: var(--color-heading);
 }
+.form-control::placeholder {
+  color: var(--color-text-muted) !important;
+  opacity: 0.6;
+}
+
+.form-label {
+  color: var(--color-text) !important;
+}
 
 /* Tabellen-Styles */
 .table {
